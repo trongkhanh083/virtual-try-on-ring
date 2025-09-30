@@ -1,0 +1,11 @@
+__pycache__/
+.gradio/
+composite/
+detect/
+enhanced_result/
+mask/
+result/
+ring/
+segment/
+workspace/
+*.pth
