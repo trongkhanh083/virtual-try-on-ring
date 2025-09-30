@@ -26,7 +26,10 @@ The pipeline combines computer vision and generative AI techniques:
 </ul>
 
 <h3>🖼️ Demo</h3>
+
 <p align="center"> <img src="assets/4.jpg" width="300"/> <img src="target/right.jpg" width="200"/> <img src="final/4_out.jpg" width="200"/> </p>
+
+<p align="center"> <img src="assets/10.jpg" width="300"/> <img src="target/right.jpg" width="200"/> <img src="final/10_out.jpg" width="200"/> </p>
 
 <h3>🚀 Installation</h3>
 
