@@ -53,16 +53,11 @@ conda activate ringvton
 pip install -r requirements.txt
 ```
 
-<h4>Download SAM + Real-ESRGAN checkpoint</h4>
+<h4>Download Real-ESRGAN checkpoint</h4>
 
 ```
-wget https://dl.fbaipublicfiles.com/segment_anything/sam_vit_b_01ec64.pth
-```
-```
 git clone https://github.com/xinntao/Real-ESRGAN.git
-cd Real-ESRGAN
-python setup.py develop
-wget https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth -P weights
+wget https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth -P Real-ESRGAN/weights
 ```
 
 <h3>⚙️ Usage</h3>
