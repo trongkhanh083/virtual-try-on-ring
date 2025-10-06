@@ -3,6 +3,7 @@ import os
 from PIL import Image
 import numpy as np
 import cv2
+import shutil
 
 from ring_segmenter import process_image as segment_ring
 from mask_hand_target import MaskHandTarget
@@ -44,11 +45,13 @@ def tryon_pipeline(hand_with_ring_img, bare_hand_img):
 
     # Save uploaded
     uploaded_path = "workspace/uploaded.jpg"
-    hand_with_ring_img.save(uploaded_path)
+    if isinstance(hand_with_ring_img, str):
+        shutil.copy(hand_with_ring_img, uploaded_path)
+    else:
+        hand_with_ring_img.save(uploaded_path)
 
     # Step 1: segment ring
-    mask_path = "workspace/ring_mask.png"
-    ring_path = "workspace/ring_isolated.png"
+    ring_path = "workspace/uploaded.png"
     segment_ring(uploaded_path, output_folder="workspace", mask_folder="workspace", ring_folder="workspace")
     print("Step 1: Ring segmented.")
 
@@ -63,7 +66,7 @@ def tryon_pipeline(hand_with_ring_img, bare_hand_img):
     for side, bare_hand in bare_hands:
         cv_img, _, _ = masker.prepare_image(bare_hand)
         ring_info = masker.estimate_ring_position(cv_img)
-        oval_mask = masker.create_ring_oval_mask(cv_img.shape, ring_info)
+        oval_mask = masker.create_ring_oval_mask(cv_img.shape, ring_info, 0.7)
         mask_save = f"workspace/{side}_mask.png"
         oval_mask.save(mask_save)
         print("Step 2: Bare hand mask created.")
@@ -87,7 +90,7 @@ def tryon_pipeline(hand_with_ring_img, bare_hand_img):
         results[side] = final_img
         print("Step 5: Image upscaled with Real-ESRGAN.")
 
-    return results["left"], results["right"] or results["custom"]
+    return results.get("left") or results.get("right") or results.get("custom")
 
 def validated_input(hand_with_ring, bare_hand):
     if hand_with_ring is None:
@@ -103,8 +106,8 @@ with gr.Blocks(css=".center-text {text-align: center;}") as demo:
     with gr.Row():
         # Left column
         with gr.Column(scale=1):
-            hand_with_ring = gr.Image(type="pil", label="Upload Hand With Ring")
-            bare_hand = gr.Image(type="pil", label="Upload Your Bare Hand")
+            hand_with_ring = gr.Image(type="filepath", label="Upload Hand With Ring")
+            bare_hand = gr.Image(type="filepath", label="Upload Your Bare Hand")
 
             with gr.Row():
                 clear_btn = gr.Button("Clear")
