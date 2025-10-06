@@ -1,6 +1,8 @@
 torch
 torchvision
-diffusers
+transformers==4.56.2
+accelerate==1.10.1
+diffusers==0.30.2
 gradio
 mediapipe
 git+https://github.com/facebookresearch/segment-anything.git
@@ -9,5 +11,6 @@ onnx
 realesrgan
 basicsr
 rembg
+oauthlib
 opencv-python==4.10.0.82
 numpy==1.26.4
